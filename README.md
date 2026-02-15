@@ -121,15 +121,6 @@ camera-orbit="[horizontal rotation] [vertical angle] [zoom distance]"
 | Second (e.g. `90deg`) | Vertical angle (90deg = straight on, 180deg = from below) |
 | Third (e.g. `105%`) | Zoom distance from model |
 
-**Important:** Currently the artefact models are exported with an incorrect orientation (lying on their side). This is compensated for by setting:
-```html
-camera-orbit="0deg 180deg 105%"
-```
-Once the model orientation is fixed in the export workflow, this should be changed to:
-```html
-camera-orbit="0deg 90deg 105%"
-```
-
 ### Locking Vertical Rotation
 
 To prevent the model from tilting up/down (which conflicts with page scrolling on mobile), the vertical angle can be locked:
@@ -137,7 +128,7 @@ To prevent the model from tilting up/down (which conflicts with page scrolling o
 min-camera-orbit="auto 90deg auto"
 max-camera-orbit="auto 90deg auto"
 ```
-This restricts users to horizontal (turntable) rotation only. **Note:** This only works correctly when models have proper upright orientation. Currently disabled for the test model due to orientation issue.
+This restricts users to horizontal (turntable) rotation only.
 
 ---
 
@@ -198,10 +189,6 @@ When an iOS user taps "View in AR":
 - We cannot customise the AR Quick Look interface
 - Photo/video capture uses Apple's built-in screenshot (side buttons) or screen recording
 - In-app browsers (Instagram, Facebook) do not support AR Quick Look
-
-### Model Orientation in iOS AR
-
-iOS AR Quick Look automatically corrects the model's vertical orientation, so even if the GLB model appears sideways in the web viewer, the USDZ typically appears upright in iOS AR.
 
 ---
 
@@ -267,7 +254,6 @@ When detected, a blue "Click Here to Open in Browser for AR" button appears. Cli
 
 | Issue | Cause | Workaround |
 |-------|-------|------------|
-| Model appears sideways in web viewer | Incorrect export orientation from Aspose USD→GLB conversion | Set `camera-orbit="0deg 180deg 105%"` as compensation. Fix properly by rotating model in Blender before export |
 | AR fails on device with very low storage | iOS restricts AR Quick Look when <2GB free | Ask user to free up storage space |
 | AR not working in Brave browser | Brave Shields blocks CDN scripts and cross-origin requests | Ask user to disable Shields for the site, or use Safari/Chrome |
 | Purple/missing textures in AR | Texture loading failure (often storage-related) | Ensure USDZ has embedded textures, reduce file size |
@@ -426,16 +412,11 @@ if (isInAppBrowser()) {
 </script>
 ```
 
-**Note:** The template above uses `camera-orbit="0deg 90deg 105%"` with locked vertical rotation. This assumes correctly oriented models. For models with the current orientation issue, change to `camera-orbit="0deg 180deg 105%"` with `min-camera-orbit="auto auto 5%"` and `max-camera-orbit="auto auto 200%"`.
-
 ---
 
-## Model Export Workflow (Important)
+## Model Export Workflow
 
-### Current Issue
-Models are currently exported with incorrect orientation (lying on their side). This is a known issue with the USDZ → USD → GLB conversion via Aspose.
-
-### Correct Workflow for Future Models
+### Recommended Workflow
 1. Scan artefact using photogrammetry software
 2. Export as USDZ from scanning software
 3. Unzip USDZ (rename to .zip, extract) to get USD file

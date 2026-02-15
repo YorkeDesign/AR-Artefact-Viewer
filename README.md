@@ -1,17 +1,18 @@
 # AR Artefact Viewer - Technical README
 
-**Project:** Christchurch Archaeology AR Artefact Viewer
-**Website:** https://www.christchurcharchaeology.org/online-exhibition
-**GitHub (3D Models):** https://github.com/christchurcharchaeology/3D-artefacts
 **Developed by:** YORKE LABS
 
 ---
 
 ## Overview
 
-This system allows users to view 3D scanned archaeological artefacts in an interactive web viewer, and then place them in their real-world environment using Augmented Reality (AR) on compatible mobile devices.
+This system allows users to view 3D scanned objects in an interactive web viewer, and then place them in their real-world environment using Augmented Reality (AR) on compatible mobile devices.
 
-The solution is built using Google's `model-viewer` web component, embedded into Squarespace pages via custom HTML code blocks.
+The solution is built using Google's `model-viewer` web component, embedded into website pages via custom HTML code blocks (originally built for Squarespace).
+
+### Original Project
+
+This was originally developed for the [Christchurch Archaeology](https://www.christchurcharchaeology.org/online-exhibition) online exhibition, where 3D-scanned archaeological artefacts were displayed with AR support. The live exhibition and its [3D model repository](https://github.com/christchurcharchaeology/3D-artefacts) can be used as a reference implementation.
 
 ---
 
@@ -37,9 +38,9 @@ MaskJug_LOD0.glb
 MaskJug_LOD0.usdz
 ```
 
-`LOD0` stands for Level of Detail 0 (highest detail). Files are stored in the GitHub repository at:
+`LOD0` stands for Level of Detail 0 (highest detail). Files should be stored in a GitHub repository, e.g.:
 ```
-https://github.com/christchurcharchaeology/3D-artefacts
+https://github.com/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO
 ```
 
 ### Target File Sizes
@@ -58,13 +59,13 @@ The 3D model files are hosted on GitHub and served via two different CDNs depend
 
 **GLB files (Android + Web viewer):**
 ```
-https://cdn.jsdelivr.net/gh/christchurcharchaeology/3D-artefacts@main/[filename].glb
+https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO@main/[filename].glb
 ```
 jsDelivr is used for GLB because it provides fast global CDN delivery with correct CORS headers for WebGL/Android Scene Viewer.
 
 **USDZ files (iOS AR):**
 ```
-https://raw.githubusercontent.com/christchurcharchaeology/3D-artefacts/main/[filename].usdz
+https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO/main/[filename].usdz
 ```
 GitHub's raw content delivery is used for USDZ because iOS AR Quick Look requires direct file access.
 
@@ -285,7 +286,7 @@ Use this template for each artefact page. Replace `[FILENAME]` and `[ARTEFACT NA
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
 
 <div style="padding-top: 30px;">
-  <a href="/online-exhibition" style="
+  <a href="/YOUR_GALLERY_PAGE" style="
     display: inline-block;
     margin-bottom: 20px;
     padding: 10px 20px;
@@ -320,8 +321,8 @@ Use this template for each artefact page. Replace `[FILENAME]` and `[ARTEFACT NA
 
 <div style="width: 100%; max-width: 100%; margin: 0 auto; position: relative;">
   <model-viewer
-    src="https://cdn.jsdelivr.net/gh/christchurcharchaeology/3D-artefacts@main/[FILENAME].glb"
-    ios-src="https://raw.githubusercontent.com/christchurcharchaeology/3D-artefacts/main/[FILENAME].usdz"
+    src="https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO@main/[FILENAME].glb"
+    ios-src="https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO/main/[FILENAME].usdz"
     alt="[ARTEFACT NAME]"
     ar
     ar-modes="webxr scene-viewer quick-look"
@@ -425,7 +426,7 @@ if (isInAppBrowser()) {
 6. Rotate to correct upright orientation: **R → X → -90 → Enter** (or as needed)
 7. Export as GLB from Blender with **+Y Up checked**
 8. Verify orientation in https://gltf-viewer.donmccurdy.com/
-9. Upload both GLB and USDZ to GitHub repository
+9. Upload both GLB and USDZ to your GitHub models repository
 
 ### Recommended File Size Targets
 - **USDZ:** 2-4MB (iOS AR)
@@ -451,9 +452,9 @@ if (isInAppBrowser()) {
 - **Code blocks:** Each artefact page uses a single HTML code block
 - **Padding fix:** CSS overrides are required to remove Squarespace's default section padding (`padding-top: 0 !important`)
 - **Page structure:**
-  - Gallery page: `/online-exhibition` (grid of artefact thumbnails)
-  - Individual pages: `/artefact-001` through `/artefact-006` (not linked in main navigation)
-- **Page naming:** Artefact 001, Artefact 002 etc. (numbered for future-proofing QR codes)
+  - Gallery page: `/YOUR_GALLERY_PAGE` (grid of thumbnails)
+  - Individual pages: one per artefact (not linked in main navigation)
+- **Page naming:** Numbered naming (e.g. Artefact 001, 002) is recommended for future-proofing QR codes
 
 ---
 
@@ -470,9 +471,9 @@ if (isInAppBrowser()) {
 
 | Resource | URL |
 |----------|-----|
-| Gallery page | https://www.christchurcharchaeology.org/online-exhibition |
-| GitHub repo | https://github.com/christchurcharchaeology/3D-artefacts |
-| GLB CDN base URL | `https://cdn.jsdelivr.net/gh/christchurcharchaeology/3D-artefacts@main/` |
-| USDZ raw base URL | `https://raw.githubusercontent.com/christchurcharchaeology/3D-artefacts/main/` |
+| Your gallery page | `https://YOUR_WEBSITE/YOUR_GALLERY_PAGE` |
+| Your GitHub models repo | `https://github.com/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO` |
+| GLB CDN base URL | `https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO@main/` |
+| USDZ raw base URL | `https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO/main/` |
 | model-viewer docs | https://modelviewer.dev |
 | GLB viewer (testing) | https://gltf-viewer.donmccurdy.com |

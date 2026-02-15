@@ -2,33 +2,24 @@
 =============================================================================
 AR ARTEFACT VIEWER - SQUARESPACE CODE BLOCK TEMPLATE
 =============================================================================
-Project:    Christchurch Archaeology AR Artefact Viewer
+Project:    AR Artefact Viewer
 Developed:  YORKE LABS
-GitHub:     https://github.com/christchurcharchaeology/3D-artefacts
-Website:    https://www.christchurcharchaeology.org/online-exhibition
 
 HOW TO USE THIS TEMPLATE:
-1. Replace [FILENAME] with the artefact file name (e.g. MaskJug_LOD0)
-2. Replace [ARTEFACT NAME] with the artefact display name (e.g. Mask Jug Artefact)
-3. Paste the entire code into a Squarespace Code Block on the artefact page
-4. Set the code block type to HTML
+1. Replace YOUR_GITHUB_USERNAME and YOUR_MODELS_REPO with your GitHub details
+2. Replace YOUR_GALLERY_PAGE with the path to your gallery page
+3. Replace [FILENAME] with the artefact file name (e.g. MaskJug_LOD0)
+4. Replace [ARTEFACT NAME] with the artefact display name (e.g. Mask Jug Artefact)
+5. Paste the entire code into a Squarespace Code Block (or any HTML embed) on the artefact page
+6. Set the code block type to HTML
 
 FILE NAMING CONVENTION:
   [ArtefactName]_LOD0.glb   (Android + Web viewer)
   [ArtefactName]_LOD0.usdz  (iOS AR)
 
-MODEL ORIENTATION NOTE:
-  Current models are exported with incorrect orientation (lying on their side).
-  This is compensated using camera-orbit="0deg 180deg 105%" with free rotation.
-  Once models are correctly oriented in Blender export, change to:
-    camera-orbit="0deg 90deg 105%"
-    min-camera-orbit="auto 90deg auto"
-    max-camera-orbit="auto 90deg auto"
-  This will enable cleaner horizontal-only (turntable) rotation.
-
 CDN URLS:
-  GLB  (Android + Web): https://cdn.jsdelivr.net/gh/christchurcharchaeology/3D-artefacts@main/
-  USDZ (iOS AR):        https://raw.githubusercontent.com/christchurcharchaeology/3D-artefacts/main/
+  GLB  (Android + Web): https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO@main/
+  USDZ (iOS AR):        https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO/main/
 =============================================================================
 -->
 
@@ -66,7 +57,7 @@ CDN URLS:
      after the Squarespace padding override above.
      ========================================================= -->
 <div style="padding-top: 30px;">
-  <a href="/online-exhibition" style="
+  <a href="/YOUR_GALLERY_PAGE" style="
     display: inline-block;
     margin-bottom: 20px;
     padding: 10px 20px;
@@ -129,16 +120,11 @@ CDN URLS:
      auto-rotate:       Model slowly spins when idle
      
      camera-orbit:      Initial camera position
-                        "0deg 180deg 105%" compensates for
-                        incorrect model orientation (sideways).
-                        Change to "0deg 90deg 105%" once models
-                        are correctly oriented.
-     
-     min/max-camera-orbit: Currently allows free zoom only.
-                           Change to lock vertical rotation once
-                           models are correctly oriented:
-                           min: "auto 90deg auto"
-                           max: "auto 90deg auto"
+                        "0deg 90deg 105%" = straight on view
+
+     min/max-camera-orbit: Locks vertical rotation to horizontal
+                           (turntable) only. Remove these to allow
+                           free rotation.
      
      crossorigin:  Handles cross-origin CDN file requests
      loading:      eager = load immediately (not lazy)
@@ -146,17 +132,17 @@ CDN URLS:
      ========================================================= -->
 <div style="width: 100%; max-width: 100%; margin: 0 auto; position: relative;">
   <model-viewer
-    src="https://cdn.jsdelivr.net/gh/christchurcharchaeology/3D-artefacts@main/[FILENAME].glb"
-    ios-src="https://raw.githubusercontent.com/christchurcharchaeology/3D-artefacts/main/[FILENAME].usdz"
+    src="https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO@main/[FILENAME].glb"
+    ios-src="https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_MODELS_REPO/main/[FILENAME].usdz"
     alt="[ARTEFACT NAME]"
     ar
     ar-modes="webxr scene-viewer quick-look"
     camera-controls
     touch-action="pan-y"
     auto-rotate
-    camera-orbit="0deg 180deg 105%"
-    min-camera-orbit="auto auto 5%"
-    max-camera-orbit="auto auto 200%"
+    camera-orbit="0deg 90deg 105%"
+    min-camera-orbit="auto 90deg auto"
+    max-camera-orbit="auto 90deg auto"
     crossorigin="anonymous"
     loading="eager"
     reveal="auto"

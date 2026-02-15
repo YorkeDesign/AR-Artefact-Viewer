@@ -1,0 +1,293 @@
+<!--
+=============================================================================
+AR ARTEFACT VIEWER - SQUARESPACE CODE BLOCK TEMPLATE
+=============================================================================
+Project:    Christchurch Archaeology AR Artefact Viewer
+Developed:  YORKE LABS
+GitHub:     https://github.com/christchurcharchaeology/3D-artefacts
+Website:    https://www.christchurcharchaeology.org/online-exhibition
+
+HOW TO USE THIS TEMPLATE:
+1. Replace [FILENAME] with the artefact file name (e.g. MaskJug_LOD0)
+2. Replace [ARTEFACT NAME] with the artefact display name (e.g. Mask Jug Artefact)
+3. Paste the entire code into a Squarespace Code Block on the artefact page
+4. Set the code block type to HTML
+
+FILE NAMING CONVENTION:
+  [ArtefactName]_LOD0.glb   (Android + Web viewer)
+  [ArtefactName]_LOD0.usdz  (iOS AR)
+
+MODEL ORIENTATION NOTE:
+  Current models are exported with incorrect orientation (lying on their side).
+  This is compensated using camera-orbit="0deg 180deg 105%" with free rotation.
+  Once models are correctly oriented in Blender export, change to:
+    camera-orbit="0deg 90deg 105%"
+    min-camera-orbit="auto 90deg auto"
+    max-camera-orbit="auto 90deg auto"
+  This will enable cleaner horizontal-only (turntable) rotation.
+
+CDN URLS:
+  GLB  (Android + Web): https://cdn.jsdelivr.net/gh/christchurcharchaeology/3D-artefacts@main/
+  USDZ (iOS AR):        https://raw.githubusercontent.com/christchurcharchaeology/3D-artefacts/main/
+=============================================================================
+-->
+
+<!-- =========================================================
+     SQUARESPACE PADDING OVERRIDE
+     Removes default top padding Squarespace adds to sections.
+     Multiple selectors used to catch all Squarespace wrappers.
+     ========================================================= -->
+<style>
+  .sqs-block,
+  .sqs-block-content,
+  .code-block,
+  .page-section,
+  section[data-section-id] {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  .content-wrapper,
+  .content {
+    padding-top: 0 !important;
+  }
+</style>
+
+<!-- =========================================================
+     MODEL-VIEWER LIBRARY
+     Loaded from Google CDN. Provides the <model-viewer> 
+     custom HTML element for 3D display and AR functionality.
+     ========================================================= -->
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+
+<!-- =========================================================
+     BACK TO GALLERY BUTTON
+     Links back to the main artefact gallery page.
+     padding-top: 30px provides breathing room from top of page
+     after the Squarespace padding override above.
+     ========================================================= -->
+<div style="padding-top: 30px;">
+  <a href="/online-exhibition" style="
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background: #f5f5f5;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    border: 1px solid #ddd;">
+    ← Back to Gallery
+  </a>
+</div>
+
+<!-- =========================================================
+     IN-APP BROWSER BUTTON
+     Hidden by default. Only shown when the page is opened
+     inside Instagram, Facebook, or other social media apps
+     whose built-in browsers do not support AR.
+     The JavaScript at the bottom detects in-app browsers
+     and shows this button, setting the correct URL scheme
+     for iOS (x-safari-) or Android (intent://).
+     ========================================================= -->
+<div id="browser-button" style="display: none; margin-bottom: 20px; text-align: center;">
+  <a id="open-browser-btn" href="" style="
+    display: inline-block;
+    padding: 14px 28px;
+    background: #4285f4;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: background 0.2s;
+    text-align: center;">
+    Click Here to Open in Browser for AR
+  </a>
+</div>
+
+<!-- =========================================================
+     3D MODEL VIEWER + AR
+     
+     src:      GLB file via jsDelivr CDN - used for web 3D
+               viewer on ALL devices (desktop + mobile)
+     ios-src:  USDZ file via GitHub raw - used ONLY when iOS
+               AR Quick Look is launched on iPhone/iPad
+     
+     ar:       Enables AR button (auto-hidden on desktop)
+     ar-modes: Priority order for AR systems:
+               1. webxr      - web-based AR (limited support)
+               2. scene-viewer - Android native AR
+               3. quick-look   - iOS native AR
+     
+     camera-controls:   Enables mouse/touch rotate and zoom
+     touch-action:      pan-y allows page scrolling on mobile
+     auto-rotate:       Model slowly spins when idle
+     
+     camera-orbit:      Initial camera position
+                        "0deg 180deg 105%" compensates for
+                        incorrect model orientation (sideways).
+                        Change to "0deg 90deg 105%" once models
+                        are correctly oriented.
+     
+     min/max-camera-orbit: Currently allows free zoom only.
+                           Change to lock vertical rotation once
+                           models are correctly oriented:
+                           min: "auto 90deg auto"
+                           max: "auto 90deg auto"
+     
+     crossorigin:  Handles cross-origin CDN file requests
+     loading:      eager = load immediately (not lazy)
+     reveal:       auto = show as soon as loaded
+     ========================================================= -->
+<div style="width: 100%; max-width: 100%; margin: 0 auto; position: relative;">
+  <model-viewer
+    src="https://cdn.jsdelivr.net/gh/christchurcharchaeology/3D-artefacts@main/[FILENAME].glb"
+    ios-src="https://raw.githubusercontent.com/christchurcharchaeology/3D-artefacts/main/[FILENAME].usdz"
+    alt="[ARTEFACT NAME]"
+    ar
+    ar-modes="webxr scene-viewer quick-look"
+    camera-controls
+    touch-action="pan-y"
+    auto-rotate
+    camera-orbit="0deg 180deg 105%"
+    min-camera-orbit="auto auto 5%"
+    max-camera-orbit="auto auto 200%"
+    crossorigin="anonymous"
+    loading="eager"
+    reveal="auto"
+    style="
+      width: 100%;
+      height: 600px;
+      background-color: #f5f5f5;
+      display: block;
+      position: relative;
+    ">
+
+    <!-- =====================================================
+         VIEW IN AR BUTTON
+         Positioned top-right so it's always visible even on
+         devices with large font/accessibility settings.
+         Only visible on AR-compatible mobile devices.
+         model-viewer automatically hides it on desktop and
+         on devices that don't support AR.
+         ===================================================== -->
+    <button slot="ar-button" style="
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #4285f4;
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 10;">
+      View in AR
+    </button>
+
+  </model-viewer>
+
+  <!-- =========================================================
+       YORKE LABS CREDIT
+       Positioned top-left, aligned with the View in AR button.
+       Subtle styling so it doesn't distract from the model.
+       ========================================================= -->
+  <div style="
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 10px;
+    color: #546e7a;
+    opacity: 0.7;
+    letter-spacing: 0.2px;
+    line-height: 1.2;
+    z-index: 5;">
+    Powered by <span style="font-weight: 600; letter-spacing: 0.4px;">YORKE</span> <span style="font-weight: 300;">LABS</span>
+  </div>
+</div>
+
+<!-- =========================================================
+     STYLES
+     ========================================================= -->
+<style>
+  /* Rounded corners and shadow on the viewer */
+  model-viewer {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    min-height: 600px !important;
+  }
+
+  /* Fallback display while model-viewer library loads */
+  model-viewer:not(:defined) {
+    display: block;
+    height: 600px;
+    background: #f5f5f5;
+  }
+
+  /* Back to Gallery button hover state */
+  a:hover {
+    background: #e8e8e8 !important;
+  }
+
+  /* Open in Browser button hover state */
+  #open-browser-btn:hover {
+    background: #3367d6 !important;
+  }
+</style>
+
+<!-- =========================================================
+     IN-APP BROWSER DETECTION
+     Detects if the page is loaded inside a social media
+     app's built-in browser (Instagram, Facebook, etc.).
+     These in-app browsers do not support AR Quick Look
+     (iOS) or Scene Viewer (Android), so model-viewer
+     automatically hides the "View in AR" button.
+     
+     When an in-app browser is detected:
+     - Shows the "Click Here to Open in Browser for AR" button
+     - Sets the button URL using the correct scheme:
+       iOS:     x-safari-https://... (opens in Safari)
+       Android: intent://...         (opens in default browser)
+     ========================================================= -->
+<script>
+function isInAppBrowser() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+  if (ua.indexOf('Instagram') > -1) return true;      // Instagram
+  if (ua.indexOf('FBAN') > -1 || ua.indexOf('FBAV') > -1) return true; // Facebook
+  if (ua.indexOf('LinkedInApp') > -1) return true;    // LinkedIn
+  if (ua.indexOf('Twitter') > -1) return true;        // Twitter/X
+  if (ua.indexOf('Line/') > -1) return true;          // Line
+  if (ua.indexOf('Snapchat') > -1) return true;       // Snapchat
+  if (ua.indexOf('TikTok') > -1) return true;         // TikTok
+
+  return false;
+}
+
+if (isInAppBrowser()) {
+  // Show the "Open in Browser" button
+  document.getElementById('browser-button').style.display = 'block';
+
+  const currentUrl = window.location.href;
+  const btn = document.getElementById('open-browser-btn');
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+  if (isIOS) {
+    // iOS: Use x-safari URL scheme to open in Safari
+    btn.href = 'x-safari-' + currentUrl;
+  } else {
+    // Android: Use Intent URL to open in default browser
+    btn.href = 'intent://' + currentUrl.replace(/^https?:\/\//, '') + '#Intent;scheme=https;end';
+  }
+}
+</script>

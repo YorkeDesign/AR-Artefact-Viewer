@@ -16,6 +16,20 @@ This was originally developed for the [Christchurch Archaeology](https://www.chr
 
 ---
 
+## Tech Stack
+
+- **Front end:** pure HTML/CSS/JS embedded as a code block - no framework, no build step. Designed to drop into a Squarespace page.
+- **3D / AR engine:** Google's `<model-viewer>` web component (v3.3.0), loaded from Google's CDN (`ajax.googleapis.com`). Drives the in-browser WebGL preview and the AR hand-off.
+- **AR systems (native, no code):** Android Scene Viewer (renders GLB) and iOS AR Quick Look (renders USDZ); WebXR where available.
+- **Model assets:** two files per artefact - `.glb` (Android + web) and `.usdz` (iOS) - hosted in a GitHub repo and served via jsDelivr (GLB, CORS-correct) and `raw.githubusercontent.com` (USDZ, direct access for Quick Look).
+- **Backend / DB / storage:** none - entirely client-side; assets are static files on GitHub + CDN.
+
+### Paid services
+
+- **None of Simon's own.** model-viewer, jsDelivr, and GitHub raw delivery are all free. The viewer is intended to embed in a **Squarespace Business plan** site (required for custom code blocks) - but that is the deployment target's hosting (originally the Christchurch Archaeology exhibition), not a recurring cost carried by this repo.
+
+---
+
 ## How It Works: The Two Model Formats
 
 Every artefact requires **two separate 3D model files** to support both iOS and Android devices:

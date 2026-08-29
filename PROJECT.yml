@@ -1,0 +1,76 @@
+# PROJECT.yml - how this project tells Harvestry what it is.
+#
+# Harvestry syncs this file from GitHub daily (05:30 UTC) and feeds it to the
+# project alignment agent, the relevance gate and the Curator. Without it, the
+# vault scores this project against a paragraph generated from the README -
+# which describes only the code, so every project reads as a software project.
+#
+# Template + field reference: ~/.claude/templates/PROJECT.yml
+# To author or review this file properly: run /write-project-profile
+
+
+name: AR-Artefact-Viewer
+harvestry_project: AR-Artefact-Viewer
+stage: beta
+
+# What this project IS. Decides whether physical signal is core or a tangent.
+nature:
+  - "web"
+  - "software"
+
+mission: >
+  Web AR viewer for 3D-scanned artefacts using Google model-viewer: serves GLB
+  for Android and web via CDN and USDZ for iOS, with custom HTML templates for
+  Squarespace embedding, in-app browser detection, and fallback browser-launch
+  buttons for Instagram and Facebook.
+
+# Categories this project is actively hunting. A high interest scores 7+.
+signal_interests:
+  - label: "WebAR, model-viewer, Quick Look and Scene Viewer capabilities"
+    weight: high
+  - label: "3D scanning and photogrammetry of physical objects"
+    weight: high
+  - label: "In-app browser limitations and workarounds"
+    weight: high
+  - label: "Hosting and CDN delivery of 3D assets"
+    weight: high
+  - label: "Squarespace and CMS embedding constraints"
+    weight: medium
+  - label: "glTF/USDZ authoring for AR"
+    weight: medium
+
+# ---------------------------------------------------------------------------
+# open_decisions - NOT YET FILLED IN. This is the highest-value field.
+# ---------------------------------------------------------------------------
+# An item that informs a live decision scores 8+; nothing else in this file
+# comes close. It is deliberately empty rather than guessed.
+#
+# It was left out because a first pass on another project drafted this field
+# from its README and TASKS.md and got THREE OF FOUR DECISIONS WRONG - the docs
+# lagged reality by hours, which is the normal state during active work, not an
+# aberration. Only a session actually working this project knows what is open.
+#
+# Fill it in at the next real working session (run /write-project-profile), and
+# from then on move it in the SAME COMMIT as the decision. When you CLOSE one,
+# do not delete it: set `status: closed` and add `rests_on` naming the facts the
+# closure depends on, with numbers. A closure is a claim resting on facts, and
+# facts move.
+#
+# open_decisions:
+#   - id: example
+#     question: Which X should we use?
+#     status: open          # open | imminent | blocked | closing | closed
+#     notes: >
+#       What has been ruled out, on what grounds, and what would reopen it.
+
+# Explicit negatives. Scored 0-2 however well they otherwise match.
+not_interested:
+  - "Headset and spatial-computing app development"
+  - "Museum CMS platforms"
+
+keywords:
+  - "webar"
+  - "model-viewer"
+  - "usdz"
+  - "photogrammetry"
+  - "quicklook"

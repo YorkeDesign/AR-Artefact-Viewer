@@ -40,28 +40,79 @@ signal_interests:
     weight: medium
 
 # ---------------------------------------------------------------------------
-# open_decisions - NOT YET FILLED IN. This is the highest-value field.
+# open_decisions - live questions the OUTSIDE WORLD could answer.
 # ---------------------------------------------------------------------------
 # An item that informs a live decision scores 8+; nothing else in this file
-# comes close. It is deliberately empty rather than guessed.
+# comes close. Backfilled 2026-09-20 from README.md (tech stack, hosting,
+# export workflow, in-app browser handling) and the harvest record - every
+# entry below traces to something actually in this repo.
 #
-# It was left out because a first pass on another project drafted this field
-# from its README and TASKS.md and got THREE OF FOUR DECISIONS WRONG - the docs
-# lagged reality by hours, which is the normal state during active work, not an
-# aberration. Only a session actually working this project knows what is open.
-#
-# Fill it in at the next real working session (run /write-project-profile), and
-# from then on move it in the SAME COMMIT as the decision. When you CLOSE one,
-# do not delete it: set `status: closed` and add `rests_on` naming the facts the
+# Move an entry in the SAME COMMIT as the decision. When you CLOSE one, do not
+# delete it: set `status: closed` and add `rests_on` naming the facts the
 # closure depends on, with numbers. A closure is a claim resting on facts, and
 # facts move.
-#
-# open_decisions:
-#   - id: example
-#     question: Which X should we use?
-#     status: open          # open | imminent | blocked | closing | closed
-#     notes: >
-#       What has been ruled out, on what grounds, and what would reopen it.
+open_decisions:
+  - id: model-viewer-version
+    question: Do we stay pinned to model-viewer 3.3.0 off Google's
+      ajax.googleapis.com CDN, or move to a current major release - and would a
+      newer version change the AR hand-off, the custom ar-button slot, or the
+      camera-orbit locking we depend on?
+    status: open
+    notes: >
+      Every artefact page hardcodes the 3.3.0 module URL, so an upgrade is a
+      find-and-replace across every Squarespace code block with no build step
+      and no test to catch a regression. Release notes, a breaking-change list,
+      a migration writeup, or a report that the `ar-button` slot or the
+      min/max-camera-orbit turntable lock behaves differently all move this. So
+      does anything about Google's CDN dropping or reorganising the
+      model-viewer path.
+
+  - id: asset-hosting-split
+    question: Is the two-host split - GLB via jsDelivr, USDZ via
+      raw.githubusercontent - the right long-term delivery for artefact assets,
+      or should both formats move to a single host?
+    status: open
+    notes: >
+      The split exists because jsDelivr gives CORS-correct GLB for WebGL and
+      Scene Viewer, while AR Quick Look wanted direct file access for USDZ.
+      raw.githubusercontent is not a CDN with delivery guarantees and carries
+      rate limits, which makes it the least-proven link in the stack. jsDelivr
+      per-file size limits or policy changes, GitHub raw rate-limit or
+      Content-Type changes, a Quick Look requirement raw delivery stops
+      meeting, or a host that serves both formats correctly all move this.
+      Hard constraint: it must stay free - this repo carries no paid services.
+
+  - id: two-format-pipeline
+    question: Can one master asset produce both the GLB and the USDZ, or does
+      every artefact keep needing two separately produced files plus a manual
+      Blender orientation fix?
+    status: open
+    notes: >
+      The current workflow scans to USDZ, unzips it, converts USD to GLB
+      through the Aspose web converter, then rotates the result upright in
+      Blender and re-exports with +Y up - a manual chain hanging on a
+      third-party web tool, repeated per artefact. A converter that round-trips
+      glTF and USDZ faithfully (orientation and embedded textures intact), or a
+      scanner exporting both directly, moves this. So does anything on hitting
+      the stated 2-6MB GLB / 2-4MB USDZ targets, which the workflow names but
+      has no step for; the GLB-decimation proposal awaiting approval in
+      docs/harvest/proposals/ belongs against this decision.
+
+  - id: in-app-browser-escape
+    question: Do the in-app-browser escape hatches - the x-safari- scheme on iOS
+      and the intent:// URL on Android - still work on current OS versions, and
+      is there a supported alternative to sniffing the user-agent for Instagram,
+      Facebook, TikTok and the rest?
+    status: open
+    notes: >
+      Much of the traffic arrives from a social app whose embedded browser
+      supports neither Quick Look nor Scene Viewer, so this fallback is what
+      makes AR reachable for those users at all. Both schemes are unofficial,
+      neither is verified on current iOS or Android here, and detection is a
+      hardcoded user-agent substring list that silently stops matching when an
+      app changes its UA. An OS change to either scheme, a documented escape
+      mechanism, a maintained in-app-browser detection library, or an in-app
+      browser gaining real AR support all move this.
 
 # Explicit negatives. Scored 0-2 however well they otherwise match.
 not_interested:
